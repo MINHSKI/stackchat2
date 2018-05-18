@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { getChannel } from '../store'
+
+function submitHandler(event){
+  this.props.postChannel(event.target.value)
+}
 
 const NewChannelEntry = (props) => {
   return (
@@ -8,7 +14,7 @@ const NewChannelEntry = (props) => {
         <input className="form-control" type="text" name="channelName" placeholder="Enter channel name" />
       </div>
       <div className="form-group">
-        <button type="submit" className="btn btn-default">Create Channel</button>
+        <button type="submit" onSubmit={submitHandler} className="btn btn-default">Create Channel</button>
       </div>
     </form>
   );
@@ -16,4 +22,10 @@ const NewChannelEntry = (props) => {
 
 /** Write your `connect` component below! **/
 
-export default NewChannelEntry;
+const mapDispatchToProps = (dispatch) => {
+  return { newChannel: (channel) => dispatch(getChannel(channel)) }
+}
+
+const connectedChannel = connect(null, mapDispatchToProps)(NewChannelEntry);
+
+export default connectedChannel;
